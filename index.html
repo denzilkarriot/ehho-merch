@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>ЪЭХО · Калькулятор мерча</title>
+<style>
+  :root{
+    --bg:#12141a; --panel:#1a1d26; --panel2:#222636; --line:#2e3346;
+    --tx:#e8eaf2; --mut:#8b91a7; --acc:#e8b34b; --acc2:#6ea8ff; --good:#5dd39e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.45;padding:14px;padding-bottom:90px}
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{font-size:1.25rem;font-weight:800}
+  .sub{color:var(--mut);font-size:.8rem;margin:4px 0 14px}
+
+  /* presets — горизонтальный скролл на мобиле */
+  .presets{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory}
+  .preset{flex:1 0 150px;scroll-snap-align:start;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;transition:.15s;text-align:left;color:var(--tx);font-family:inherit}
+  .preset.on{border-color:var(--acc);background:#282518}
+  .preset b{display:block;font-size:.9rem}
+  .preset span{font-size:.72rem;color:var(--mut)}
+  .star{color:var(--acc)}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+  .cardhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .itemtitle{font-size:1rem;font-weight:700}
+  .qty{color:var(--acc2);font-weight:600;font-size:.8rem}
+
+  /* счётчик тиража — крупные кнопки под палец */
+  .qrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:.85rem;color:var(--mut)}
+  .cnt{display:flex;align-items:center;gap:10px}
+  .cnt button{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel2);color:var(--tx);font-size:1.3rem;cursor:pointer}
+  .cnt button:active{background:#2e3346;transform:scale(.96)}
+  .cnt input{width:64px;height:44px;text-align:center;background:var(--panel2);border:1.5px solid var(--line);border-radius:12px;color:var(--tx);font-size:1rem}
+
+  /* опции — крупные строки, вся строка кликабельна */
+  .opt{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--line);border-radius:13px;margin-bottom:8px;cursor:pointer;background:var(--panel2);font-size:.9rem;user-select:none;transition:.12s}
+  .opt:active{transform:scale(.985)}
+  .opt.on{border-color:var(--acc);background:#2a2a1e}
+  .opt .name{flex:1}
+  .opt .desc{display:block;color:var(--mut);font-size:.72rem;margin-top:2px}
+  .opt .price{color:var(--mut);white-space:nowrap;font-size:.78rem}
+  .opt.on .price{color:var(--acc);font-weight:700}
+  .checkmark{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:transparent}
+  .opt.on .checkmark{background:var(--acc);border-color:var(--acc);color:#1a1d26;font-weight:800}
+
+  .sizes{margin-top:8px;font-size:.75rem;color:var(--mut)}
+  .sizes b{color:var(--tx)}
+
+  /* ИТОГ — фиксированная плашка снизу на мобиле */
+  .summary{position:fixed;left:0;right:0;bottom:0;background:#1a1d26f2;border-top:1.5px solid var(--line);backdrop-filter:blur(8px);padding:10px 14px;z-index:50}
+  .summary .row1{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--mut)}
+  .summary .row2{display:flex;justify-content:space-between;align-items:baseline;margin-top:2px}
+  .summary .row2 b{font-size:1.35rem;color:var(--acc)}
+  .summary .row2 span{font-size:.75rem;color:var(--mut)}
+  .bar{display:flex;gap:4px;height:5px;border-radius:3px;margin-top:7px;overflow:hidden}
+  .bar div{border-radius:3px}
+  @media(min-width:720px){
+    body{padding-bottom:20px}
+    .summary{position:static;border:1px solid var(--line);border-radius:16px;margin-bottom:12px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+    .summary .row2 b{font-size:1.7rem}
+  }
+
+  .chk li{list-style:none;padding:11px 12px;border:1.5px solid var(--line);border-radius:13px;margin-bottom:7px;cursor:pointer;font-size:.85rem;background:var(--panel2);user-select:none}
+  .chk li.done{color:var(--mut);text-decoration:line-through;border-color:var(--good)}
+  .chk li.done::before{content:'✔ ';text-decoration:none}
+  .chk li:not(.done)::before{content:'☐ ';color:var(--mut)}
+  h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);margin:16px 0 8px}
+  .foot{color:var(--mut);font-size:.72rem;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>ЪЭХО · калькулятор мерча</h1>
+<div class="sub">100 футболок + 50 худи · размеры S/L = 1:2 (из 138 заказов прошлой линейки) · цены до КП</div>
+
+<div class="presets">
+  <button class="preset" id="p1" onclick="preset(1)"><b>Бюджет</b><span>≈260–300 ₽/шт</span></button>
+  <button class="preset on" id="p2" onclick="preset(2)"><b>Оптимум <span class="star">★</span></b><span>≈420–500 ₽/шт</span></button>
+  <button class="preset" id="p3" onclick="preset(3)"><b>Варёнка</b><span>≈800–950 ₽/шт</span></button>
+</div>
+
+<!-- фиксированный итог -->
+<div class="summary">
+  <div class="row1"><span id="sumItems">150 изделий · опт-скидка ✓</span><span id="sumSplit">👕 67% · 🧥 33%</span></div>
+  <div class="row2"><b id="grand">—</b><span id="peritem">—</span></div>
+  <div class="bar"><div id="barT" style="flex:67;background:var(--acc2)"></div><div id="barH" style="flex:33;background:var(--acc)"></div></div>
+</div>
+
+<div class="cols">
+  <div class="card">
+    <div class="cardhead"><span class="itemtitle">👕 Футболки</span><span class="qty" id="teeSizes">S 33 · L 67</span></div>
+    <div class="qrow"><span>Тираж (кратно 5)</span>
+      <div class="cnt"><button onclick="step('teeQ',-5)" aria-label="минус 5">−</button><input id="teeQ" inputmode="numeric" value="100" onchange="calc()"><button onclick="step('teeQ',5)" aria-label="плюс 5">+</button></div>
+    </div>
+    <div id="teeFab"></div>
+    <div style="height:8px"></div>
+    <div id="teeOpts"></div>
+    <div class="sizes">Сетка <b>S ⅓ · L ⅔</b> — кривая 1:2 из реальных продаж прошлой линейки</div>
+  </div>
+
+  <div class="card">
+    <div class="cardhead"><span class="itemtitle">🧥 Худи</span><span class="qty" id="hdSizes">S 17 · L 33</span></div>
+    <div class="qrow"><span>Тираж (кратно 5)</span>
+      <div class="cnt"><button onclick="step('hdQ',-5)" aria-label="минус 5">−</button><input id="hdQ" inputmode="numeric" value="50" onchange="calc()"><button onclick="step('hdQ',5)" aria-label="плюс 5">+</button></div>
+    </div>
+    <div id="hdFab"></div>
+    <div style="height:8px"></div>
+    <div id="hdOpts"></div>
+    <div class="sizes">Сетка <b>S ⅓ · L ⅔</b> · худи носят свободнее — замеры сверить</div>
+  </div>
+</div>
+
+<h2>Вопросы менеджеру Done Print</h2>
+<ul class="chk">
+  <li onclick="this.classList.toggle('done')">Варка garment dye на своём пошиве — цена/шт при 150 шт?</li>
+  <li onclick="this.classList.toggle('done')">Пенье 240: какие цвета в наличии сейчас?</li>
+  <li onclick="this.classList.toggle('done')">Замеры S и L: лекала DW и OHDW-1</li>
+  <li onclick="this.classList.toggle('done')">Опт-скидка от суммарных 150 шт?</li>
+  <li onclick="this.classList.toggle('done')">Шелкография по варёной ткани — ок?</li>
+  <li onclick="this.classList.toggle('done')">Образцы вживую: запись в шоу-рум</li>
+</ul>
+
+<div class="foot">Ориентиры — из открытого прайса doneprint.ru и конспекта экскурсии (06.10). Финальная цена после ТЗ/КП. Полный цикл ≈ 3–4 недели.</div>
+</div>
+
+<script>
+const FAB={
+ tee:[
+  {id:'t1',n:'Кулирка опен-энд 190',d:'промо-уровень',p:260},
+  {id:'t2',n:'Кулирка ринг/карде 190',d:'середина, катышки со временем',p:300},
+  {id:'t3',n:'Кулирка пенье 240 ★',d:'премиум-хлопок: не пилингуется, не вытягивается',p:430,rec:1},
+  {id:'t4',n:'Пенье 240 + варка GD',d:'та самая варёнка',p:820}],
+ hd:[
+  {id:'h1',n:'Футер 2-нитка 240 без начёса',d:'осеннее',p:560},
+  {id:'h2',n:'Футер 2-нитка 320 с начёсом ★',d:'зимнее, рекомендация владельца фабрики',p:680,rec:1},
+  {id:'h3',n:'Футер 320 + Stone Wash',d:'варёное худи',p:980}]
+};
+const OPTS={
+ tee:[{id:'ot1',n:'Киперная лента на горловину',p:30},
+      {id:'ot2',n:'Шелкография 1 цвет A4',p:70},
+      {id:'ot3',n:'Сатиновая бирка своя',p:40},
+      {id:'ot4',n:'Индивидуальный пакет',p:40}],
+ hd: [{id:'oh1',n:'Карман кенгуру',p:50},
+      {id:'oh2',n:'Шелкография 1 цвет A4 (×1.5)',p:105},
+      {id:'oh3',n:'Сатиновая бирка своя',p:40},
+      {id:'oh4',n:'Индивидуальный пакет',p:45}]
+};
+const S={teeFab:'t3',hdFab:'h2',teeOpts:new Set(['ot1','ot2','ot3']),hdOpts:new Set(['oh1','oh2'])};
+
+function fabHtml(k){
+  return FAB[k].map(f=>`<div class="opt ${S[k+'Fab']===f.id?'on':''}" onclick="pickFab('${k}','${f.id}')">
+   <div class="checkmark">✓</div>
+   <span class="name">${f.n}<span class="desc">${f.d}</span></span>
+   <span class="price">≈${f.p} ₽</span></div>`).join('');
+}
+function optHtml(k){
+  return OPTS[k].map(o=>{const on=S[k+'Opts'].has(o.id);
+   return `<div class="opt ${on?'on':''}" onclick="toggleOpt('${k}','${o.id}')">
+   <div class="checkmark">✓</div>
+   <span class="name">${o.n}</span>
+   <span class="price">+${o.p} ₽</span></div>`;}).join('');
+}
+function render(){
+ teeFab.innerHTML=fabHtml('tee');hdFab.innerHTML=fabHtml('hd');
+ teeOpts.innerHTML=optHtml('tee');hdOpts.innerHTML=optHtml('hd');
+}
+function pickFab(k,id){S[k+'Fab']=id;clearP();render();calc()}
+function toggleOpt(k,id){const s=S[k+'Opts'];s.has(id)?s.delete(id):s.add(id);clearP();render();calc()}
+function clearP(){document.querySelectorAll('.preset').forEach(p=>p.classList.remove('on'))}
+function step(id,d){const el=document.getElementById(id);el.value=Math.max(0,(+el.value||0)+d);calc()}
+function unit(k){let u=FAB[k].find(x=>x.id===S[k+'Fab']).p;
+ S[k+'Opts'].forEach(id=>{u+=OPTS[k].find(z=>z.id===id).p});return u}
+function fmt(x){return x.toLocaleString('ru-RU')}
+function third(n){return Math.round(n/3)}
+function calc(){
+ const tq=+teeQ.value||0,hq=+hdQ.value||0;
+ const tu=unit('tee'),hu=unit('hd'),tt=tq*tu,ht=hq*hu,g=tt+ht,n=tq+hq;
+ grand.textContent=fmt(g)+' ₽';
+ peritem.textContent=n?('≈ '+Math.round(g/n)+' ₽/шт'):'—';
+ sumItems.textContent=n+' изделий'+(n>=150?' · опт-скидка ✓':' · до скидки '+(150-n)+' шт');
+ const sp=tt+ht||1;
+ sumSplit.textContent='👕 '+Math.round(tt/sp*100)+'% · 🧥 '+Math.round(ht/sp*100)+'%';
+ barT.style.flex=tt;barH.style.flex=ht;
+ teeSizes.textContent=tq?('S '+third(tq)+' · L '+(tq-third(tq))):'—';
+ hdSizes.textContent=hq?('S '+third(hq)+' · L '+(hq-third(hq))):'—';
+}
+function preset(n){
+ clearP();document.getElementById('p'+n).classList.add('on');
+ if(n===1){S.teeFab='t2';S.hdFab='h1';S.teeOpts=new Set();S.hdOpts=new Set(['oh1'])}
+ if(n===2){S.teeFab='t3';S.hdFab='h2';S.teeOpts=new Set(['ot1','ot2','ot3']);S.hdOpts=new Set(['oh1','oh2'])}
+ if(n===3){S.teeFab='t4';S.hdFab='h3';S.teeOpts=new Set(['ot1','ot2','ot3']);S.hdOpts=new Set(['oh1','oh2'])}
+ render();calc();
+}
+render();calc();
+</script>
+</body>
+</html>
