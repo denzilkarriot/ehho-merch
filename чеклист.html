@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЪЭХО · Мерч — чек-лист решений</title>
+<style>
+  :root{
+    --bg:#12141a; --panel:#1a1d26; --panel2:#222636; --line:#2e3346;
+    --tx:#e8eaf2; --mut:#8b91a7; --acc:#e8b34b; --acc2:#6ea8ff;
+    --ok:#5dd39e; --okbg:#16261e; --wait:#e8b34b; --waitbg:#2a2416; --q:#e07a7a; --qbg:#2a1c1c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.45;padding:14px;padding-bottom:40px}
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{font-size:1.2rem;font-weight:800}
+  .sub{color:var(--mut);font-size:.8rem;margin:4px 0 12px}
+  .timeline{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .tl{flex:1;min-width:140px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .tl .d{font-size:.72rem;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+  .tl .v{font-size:.9rem;font-weight:700}
+  .tl.hot{border-color:var(--q)}
+  .tl.hot .v{color:var(--q)}
+  .cols{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:760px){.cols{grid-template-columns:1fr 1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .card>h2{font-size:1.05rem;margin-bottom:2px}
+  .card .lead{font-size:.75rem;color:var(--mut);margin-bottom:12px}
+  .row{border-radius:13px;padding:11px 12px;margin-bottom:8px;font-size:.85rem}
+  .row .head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem}
+  .badge{font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:.5px;flex:none}
+  .ok{background:var(--okbg);border:1px solid #245a41}
+  .ok .badge{background:var(--ok);color:#0f1a14}
+  .wait{background:var(--waitbg);border:1px solid #6b5a24}
+  .wait .badge{background:var(--wait);color:#1a1608}
+  .q{background:var(--qbg);border:1px solid #6b3434}
+  .q .badge{background:var(--q);color:#1f0f0f}
+  .row .val{margin-top:4px;color:var(--tx)}
+  .row .note{margin-top:4px;color:var(--mut);font-size:.78rem}
+  .row .opts{margin-top:6px;display:flex;flex-direction:column;gap:5px}
+  .opt{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 9px;font-size:.8rem}
+  .opt b{display:block}
+  .opt span{color:var(--mut);font-size:.74rem}
+  .foot{color:var(--mut);font-size:.72rem;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>ЪЭХО · мерч — что решено, а что нет</h1>
+<div class="sub">100 футболок + 50 худи · вышивка · Done Print · статус на 14.10</div>
+
+<div class="timeline">
+  <div class="tl hot"><div class="d">до 15 окт</div><div class="v">запуск пошива</div></div>
+  <div class="tl"><div class="d">до 25 окт</div><div class="v">финал макетов</div></div>
+  <div class="tl"><div class="d">5–10 ноя</div><div class="v">готовый тираж</div></div>
+</div>
+
+<div class="cols">
+  <!-- ФУТБОЛКА -->
+  <div class="card">
+    <h2>👕 Футболка × 100</h2>
+    <div class="lead">ткани 95% определена — открыт только цвет</div>
+
+    <div class="row ok"><div class="head"><span class="badge">РЕШЕНО</span>Ткань</div>
+      <div class="val">2-нитка 240 г/м · 95/5 хлопок/лайкра</div>
+      <div class="note">Понравилась при визите, Дмитрий рекомендует, Эмма подтвердила «Давай 95/5 240гр». Лайкра: не садится, дольше живёт, не катышится.</div>
+    </div>
+    <div class="row ok"><div class="head"><span class="badge">РЕШЕНО</span>Размеры</div>
+      <div class="val">S 33 · L 67 (кривая 1:2 из 138 реальных заказов)</div>
+      <div class="note">Пропорция подтверждена командой, кратно 5 ✓</div>
+    </div>
+    <div class="row ok"><div class="head"><span class="badge">РЕШЕНО</span>Нанесение</div>
+      <div class="val">Вышивка лого</div>
+      <div class="note">Большая ~600 ₽/шт (тираж 100) · 500 ₽ (150). Маленькая — дешевле, цену уточнить.</div>
+    </div>
+    <div class="row wait"><div class="head"><span class="badge">ВЫБОР</span>Цвет ткани</div>
+      <div class="opts">
+        <div class="opt"><b>Серый / графит</b><span>под кремовое лого — фаворит мокапов, есть в палитре 240-й</span></div>
+        <div class="opt"><b>Кремовый / экрю</b><span>под красное лого; у своего поставщика только чёрный+экрю, белый/красный/бордо у других +200 ₽/шт</span></div>
+        <div class="opt"><b>Чёрный</b><span>классика, есть везде</span></div>
+      </div>
+      <div class="note">⚠ Палитра на фото «под прожектором» врёт — запросили живые фото тканей с телефона. Один цвет на всю линейку (решено).</div>
+    </div>
+    <div class="row wait"><div class="head"><span class="badge">ВЫБОР</span>Вариант лого для печати</div>
+      <div class="note">Топ-3 на тесте: 1) жирное кремовое ХЖВ с подложкой на сером · 2) тонкое красное на чёрном · 3) тонкое красное раздвинутое на кремовом. Решит Дима после вышивки-теста.</div>
+    </div>
+    <div class="row wait"><div class="head"><span class="badge">ВЫБОР</span>Размер вышивки</div>
+      <div class="note">Большая (600/500 ₽) vs маленькая (цена не запрошена). Ждём тест + счёт.</div>
+    </div>
+  </div>
+
+  <!-- ХУДИ -->
+  <div class="card">
+    <h2>🧥 Худи × 50</h2>
+    <div class="lead">здесь решено меньше всего — ткань и цвет открыты</div>
+
+    <div class="row q"><div class="head"><span class="badge">БЛОКЕР</span>Ткань — не выбрана</div>
+      <div class="opts">
+        <div class="opt"><b>3-нитка 330 г/м, 80/20 хлопок/ПЭ</b><span>Дмитрий: турецкое полотно, его основа; тёплое, но 20% синтетики</span></div>
+        <div class="opt"><b>3-нитка 400 г/м, 100% хлопок</b><span>пошив 2890 ₽ безл.; «дубовая», держит оверсайз; сильнее садится; мало цветов; карман только в цвет изделия</span></div>
+        <div class="opt"><b>3-нитка 420 / 460–470 / 500–520, 100% хлопок</b><span>тяжёлый премиум без начёса; в переписке цифры гуляют (420 vs 400) — нужна финальная таблица тканей от Дмитрия</span></div>
+        <div class="opt"><b>❌ 2-нитка 240 — отпала</b><span>команда: «двунитка точно нет»</span></div>
+        <div class="opt"><b>❌ Варёнка — отпала</b><span>китайские бланки плохие; варка в Мск — не успеваем по срокам</span></div>
+      </div>
+      <div class="note">Большая вышивка «с большим числом стежков» — только на плотной ткани, это сузит выбор в сторону 400+.</div>
+    </div>
+    <div class="row ok"><div class="head"><span class="badge">РЕШЕНО</span>Размеры</div>
+      <div class="val">меньших 15 · больших 35 (перекос сильнее, чем у футболки)</div>
+      <div class="note">M=n / XL=3n, кратно 5 ✓</div>
+    </div>
+    <div class="row ok"><div class="head"><span class="badge">РЕШЕНО</span>Силуэт</div>
+      <div class="val">Классика с капюшоном (выбор Димы для первого дропа)</div>
+    </div>
+    <div class="row wait"><div class="head"><span class="badge">ВЫБОР</span>Опции пошива</div>
+      <div class="opts">
+        <div class="opt"><b>Карман кенгуру — да</b><span>≈согласовано; на 330-й можно контрастным цветом, на 400-й — нет</span></div>
+        <div class="opt"><b>Люверсы + шнурок</b><span>базовые дешёвые vs «хорошие симпатичные» — заметно удорожают; палитра фурнитуры не совпадёт с тканью идеально</span></div>
+        <div class="opt"><b>Кашкорсе (манжеты/пояс)</b><span>спросить состав: синтетика → менять / отказаться</span></div>
+      </div>
+    </div>
+    <div class="row wait"><div class="head"><span class="badge">ВЫБОР</span>Цвет ткани</div>
+      <div class="note">Кандидаты из мокапов: серый, чёрный, кремовый, болотный — но финально зависит от ткани. Живые фото тканей + финальные мокапы.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <h2 style="font-size:.95rem">🔥 Критический путь</h2>
+  <div class="sub" style="margin:6px 0 0">сигнальные экземпляры ещё не заказаны, а без них артист не даёт старт тиражу</div>
+  <div class="opts" style="margin-top:10px">
+    <div class="opt"><b>1. Сегодня-завтра: ткань худи</b><span>запросить у Дмитрия финальную таблицу тканей+цен (что из 330/400/420/460 реально), выбрать</span></div>
+    <div class="opt"><b>2. Параллельно: живые фото тканей</b><span>с телефона, без прожектора — по обеим позициям</span></div>
+    <div class="opt"><b>3. К выходным: цвета + финальные мокапы</b><span>один цвет на линейку; альтернативы из палитр производителя</span></div>
+    <div class="opt"><b>4. Сразу: заказ сигнальных (футболка + худи)</b><span>сигналка по худи блокируется п.1; успеть до 15.10</span></div>
+    <div class="opt"><b>5. Тест вышивки уже идёт</b><span>бесплатно, на кусках; после него Дима выбирает лого и размер вышивки</span></div>
+  </div>
+</div>
+
+<div class="foot">Собрано из переписки с Дмитрием (Done Print) и чата команды мерч, экспорт 13.10.</div>
+</div>
+</body>
+</html>
