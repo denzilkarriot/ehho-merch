@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЪЭХО · Сравнение размерных сеток</title>
+<style>
+  :root{--bg:#12141a;--panel:#1a1d26;--panel2:#222636;--line:#2e3346;--tx:#e8eaf2;--mut:#8b91a7;--acc:#e8b34b;--acc2:#6ea8ff;--old:#6ea8ff;--new:#e8b34b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.45;padding:14px}
+  .wrap{max-width:980px;margin:0 auto}
+  h1{font-size:1.15rem;font-weight:800}
+  .sub{color:var(--mut);font-size:.8rem;margin:4px 0 14px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .card h2{font-size:1rem;margin-bottom:2px}
+  .card .lead{font-size:.75rem;color:var(--mut);margin-bottom:10px}
+  .card img{width:100%;border-radius:12px;border:1px solid var(--line);margin-bottom:10px;background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  th,td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px}
+  td:first-child,th:first-child{text-align:left}
+  tr.hl td{background:#2a2416}
+  .tag{display:inline-block;font-size:.66rem;font-weight:800;border-radius:6px;padding:1px 7px;vertical-align:1px;margin-left:6px}
+  .t-old{background:#1d2a3f;color:var(--old)}
+  .t-new{background:#332a14;color:var(--new)}
+  .vs{margin-top:14px}
+  .vs table td b{color:var(--tx)}
+  .vs .old-c{color:var(--old)} .vs .new-c{color:var(--new)}
+  .note{color:var(--mut);font-size:.75rem;margin-top:8px}
+  .box{border-radius:13px;border:1px solid var(--line);background:var(--panel2);padding:11px 13px;margin-top:12px;font-size:.85rem}
+  .box b{color:var(--acc)}
+  .match{color:var(--acc);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Размерные сетки: прошлая варёнка vs новая модель</h1>
+<div class="sub">ЪЭХО · мерч · сравнение для выбора пары размеров под тираж</div>
+
+<div class="grid">
+  <!-- СТАРАЯ -->
+  <div class="card">
+    <h2>Прошлый мерч <span class="tag t-old">Pink Bus</span></h2>
+    <div class="lead">футболка оверсайз garment dye · 100% хлопок · ~200–220 г/м²</div>
+    <img src="https://denzilkarriot.github.io/ehho-merch/oldsizes.jpg" alt="Схема замеров Pink Bus">
+    <table>
+      <tr><th>Размер</th><th>Рукав*</th><th>Длина</th><th>Ширина (грудь)</th></tr>
+      <tr class="hl"><td><b>S</b> — купили 45 шт</td><td>43</td><td>68</td><td><b>57</b></td></tr>
+      <tr class="hl"><td><b>L</b> — купили 93 шт</td><td>44</td><td>78</td><td><b>59</b></td></tr>
+    </table>
+    <div class="note">*рукав у Pink Bus измеряется от горловины, у Done Print — от плечевого шва, поэтому эти колонки между собой не сравниваются. Допуск ±3 см.</div>
+  </div>
+
+  <!-- НОВАЯ -->
+  <div class="card">
+    <h2>Новый мерч <span class="tag t-new">Done Print OTDW-1</span></h2>
+    <div class="lead">OversizeTee · 2-нитка 240 г/м · 95/5 хлопок/лайкра · крой бокс</div>
+    <img src="https://static.tildacdn.com/tild3036-6665-4430-b562-623732333961/040324-01.jpg" alt="Схема замеров Done Wear OTDW-1">
+    <table>
+      <tr><th>Размер</th><th>Длина</th><th>Ширина (грудь)</th><th>Рукав**</th><th>Спинка</th></tr>
+      <tr><td>XS</td><td>71</td><td>57</td><td>21</td><td>70</td></tr>
+      <tr class="hl"><td><b>S</b> — кандидат №1</td><td>72</td><td><b>59</b></td><td>22</td><td>71</td></tr>
+      <tr><td>M</td><td>73</td><td>62</td><td>23</td><td>72</td></tr>
+      <tr class="hl"><td><b>L</b> — кандидат №2</td><td>74</td><td><b>67</b></td><td>24</td><td>73</td></tr>
+      <tr><td>XL</td><td>76</td><td>69</td><td>25</td><td>74</td></tr>
+    </table>
+    <div class="note">**от плечевого шва. Допуск ОТК/ВТО до 10%. Источник: карточка товара doneprint.ru.</div>
+  </div>
+</div>
+
+<!-- СРАВНЕНИЕ -->
+<div class="card vs">
+  <h2>Наложение по ширине груди (главный параметр посадки)</h2>
+  <table>
+    <tr><th>Ширина</th><th>Старая варёнка</th><th>Новая модель</th><th>Комментарий</th></tr>
+    <tr><td><b>57 см</b></td><td class="old-c">S (45 покупателей)</td><td class="new-c">XS</td><td>старая S = новая XS один в один</td></tr>
+    <tr><td><b>59 см</b></td><td class="old-c">L (93 покупателя!)</td><td class="new-c">S</td><td><span class="match">ключевая точка:</span> новая S накрывает большинство прошлой аудитории, но на 6 см короче (72 vs 78)</td></tr>
+    <tr><td><b>62 см</b></td><td>—</td><td class="new-c">M</td><td>полумера: всего +3 к S, почти дубль</td></tr>
+    <tr><td><b>67 см</b></td><td>— (тем, кому не налезло)</td><td class="new-c">L</td><td><span class="match">закрывает «неучтённых»</span> и XL-тела: +8 к старой L</td></tr>
+    <tr><td><b>69 см</b></td><td>—</td><td class="new-c">XL</td><td>верхняя граница</td></tr>
+  </table>
+  <div class="box">
+    <b>Вывод: пара S + L в пропорции 1:2 (33 / 67).</b><br>
+    • Новая S = та же ширина, что самая популярная старая L (59 см) — 93 покупателя получат привычную посадку, но силуэт боксом и на 4 см длиннее старой S.<br>
+    • Новый L (+8 см ширины) — наконец-то размер для тех, кому в прошлый раз не налезло.<br>
+    • M пропускаем: по ширине почти дублирует S и размывает тираж.<br>
+    • Плотность: новая ткань (240 г/м футер) тяжелее старой кулирки (~200–220 г/м) — качество по ощущению будет выше эталона.
+  </div>
+</div>
+
+<div class="note" style="margin-top:12px">Старая сетка — фото карточки Pink Bus; новая — карточка товара Done Print (OTDW-1). Обновлено 14.10.</div>
+</div>
+</body>
+</html>
